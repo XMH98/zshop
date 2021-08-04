@@ -18,7 +18,7 @@
     <select id="selectById" parameterType="integer" resultType="ProductType">
         select <include refid="typeColumn"/>
         from t_product_type
-        where id=${id}
+        where id=#{id}
     </select>
 
     <select id="selectByName" parameterType="string" resultType="ProductType">

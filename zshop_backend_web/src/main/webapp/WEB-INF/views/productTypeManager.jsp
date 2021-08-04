@@ -16,6 +16,8 @@
     <script src="${pageContext.request.contextPath}/layer/layer.js"></script>
     <link rel="stylesheet"  href="${pageContext.request.contextPath}/css/zshop.css" /><%--这个要放到layer下面--%>
     <script>
+
+        //分页
         $(function(){
             $('#pagination').bootstrapPaginator({
                 bootstrapMajorVersion:3,
@@ -64,6 +66,45 @@
                 }
             );
         }
+
+        //显示商品类型信息
+        function showProductType(id){
+            $.post(
+                '${pageContext.request.contextPath}/backend/productType/findById',
+                {'id':id},
+                function (result){
+                    if(result.status==1){
+                        $('#proTypeNum').val(result.data.id);
+                        $('#proTypeName').val(result.data.name);
+                    }
+                }
+            );
+        }
+
+        //修改商品名称
+        function modifyName(){
+            $.ajax({
+               type:'post',
+               url:'${pageContext.request.contextPath}/backend/productType/modifyName',
+               data:{'id':$('#proTypeNum').val(),'name':$('#proTypeName').val()},
+                success:function (result){
+                    if(result.status==1){
+                        layer.msg(result.message,{
+                            time:2000,
+                            skin:'successMsg'
+                        },function (){
+                            //重新加载数据
+                            location.href='${pageContext.request.contextPath}/backend/productType/findAll?pageNum='+${pageInfo.pageNum};
+                        });
+                    }else{
+                        layer.msg(result.message,{
+                            time:2000,
+                            skin:'errorMsg'
+                        });
+                    }
+                }
+            });
+        }
     </script>
 </head>
 
@@ -98,7 +139,7 @@
                             <td>电子产品</td>
                             <td>有效商品</td>
                             <td class="text-center">
-                                <input type="button" class="btn btn-warning btn-sm doProTypeModify" value="修改">
+                                <input type="button" class="btn btn-warning btn-sm doProTypeModify" value="修改" onclick="showProductType(${productType.id})">
                                 <c:if test="${productType.status==1}">
                                     <input type="button" class="btn btn-warning btn-sm doProTypeDisable" value="禁用">
                                 </c:if>
@@ -173,7 +214,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-warning updateProType">修改</button>
+                    <button class="btn btn-warning updateProType" onclick="modifyName()">修改</button>
                     <button class="btn btn-primary cancel" data-dismiss="modal">取消</button>
                 </div>
             </div>

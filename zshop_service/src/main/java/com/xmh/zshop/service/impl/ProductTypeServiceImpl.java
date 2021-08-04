@@ -46,8 +46,12 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     }
 
     @Override
-    public void modifyName(int id, String name) {
-
+    public void modifyName(int id, String name) throws ProductTypeException {
+        ProductType productType = productTypeDao.selectByName(name);
+        if(productType!=null){
+            throw new ProductTypeException("商品类型已存在");
+        }
+        productTypeDao.updateName(id,name);
     }
 
     @Override

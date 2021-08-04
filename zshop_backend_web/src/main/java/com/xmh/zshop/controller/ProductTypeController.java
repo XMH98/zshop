@@ -66,4 +66,27 @@ public class ProductTypeController {
         return result;
     }
 
+    @RequestMapping("/findById")
+    @ResponseBody
+    public ResponseResult findById(int id){
+        ProductType productType = productTypeService.findById(id);
+        return ResponseResult.success(productType);
+    }
+
+    @RequestMapping("/modifyName")
+    @ResponseBody
+    public ResponseResult modifyName(int id,String name){
+        ResponseResult result = new ResponseResult();
+        try {
+            productTypeService.modifyName(id,name);
+            result.setStatus(ResponseStatusConstant.RESPONSE_STATUS_SUCCESS);
+            result.setMessage("修改成功");
+        } catch (ProductTypeException e) {
+            result.setStatus(ResponseStatusConstant.RESPONSE_STATUS_FAIL);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
+
+
 }

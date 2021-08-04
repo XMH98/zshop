@@ -32,8 +32,11 @@ public interface ProductTypeService {
 
     /**
      * 根据id修改商品名称
+     * 判断商品类型是否已存在
+     *   如果存在，抛出异常
+     *   如果不存在，则进行添加操作
      */
-    public void modifyName(int id,String name);
+    public void modifyName(int id,String name) throws ProductTypeException;
 
     /**
      * 根据id修改商品状态
