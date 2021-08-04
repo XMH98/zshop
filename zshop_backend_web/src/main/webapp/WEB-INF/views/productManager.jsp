@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html;charset=utf-8" %>
 <!DOCTYPE html>
 <html lang="zh">
@@ -48,30 +49,31 @@
                         </tr>
                     </thead>
                     <tbody id="tb">
+                    <c:forEach items="${pageInfo.list}" var="productType">
                         <tr>
-                            <td>1</td>
-                            <td>手机</td>
-                            <td>1999</td>
+                            <td>${productType.id}</td>
+                            <td>${productType.name}</td>
+                            <td>
+                                <c:if test="${productType.status==1}">启用</c:if>
+                                <c:if test="${productType.status==0}">禁用</c:if>
+                            </td>
                             <td>电子产品</td>
                             <td>有效商品</td>
                             <td class="text-center">
-                                <input type="button" class="btn btn-warning btn-sm doProModify" value="修改">
-                                <input type="button" class="btn btn-warning btn-sm doProDelete" value="删除">
+                                <input type="button" class="btn btn-warning btn-sm doProTypeModify" value="修改">
+                                <c:if test="${productType.status==1}">
+                                    <input type="button" class="btn btn-warning btn-sm doProTypeDisable" value="禁用">
+                                </c:if>
+                                <c:if test="${productType.status==0}">
+                                    <input type="button" class="btn btn-warning btn-sm doProTypeDisable" value="启用">
+                                </c:if>
+                                <input type="button" class="btn btn-danger btn-sm doProTypeDelete" value="删除">
                             </td>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>平板</td>
-                            <td>2999</td>
-                            <td>电子产品</td>
-                            <td>有效商品</td>
-                            <td class="text-center">
-                                <input type="button" class="btn btn-warning btn-sm doProModify" value="修改">
-                                <input type="button" class="btn btn-warning btn-sm doProDelete" value="删除">
-                            </td>
-                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
+
             </div>
         </div>
     </div>
@@ -111,7 +113,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="product-type" class="col-sm-4 control-label">商品类型：</label>
+                            <%--@declare id="product-type"--%><label for="product-type" class="col-sm-4 control-label">商品类型：</label>
                             <div class="col-sm-8">
                                 <select class="form-control">
                                     <option>请选择</option>
@@ -199,7 +201,7 @@
             </div>
             </form>
         </div>
-    <!-- 修改商品 end -->  
+    </div>
+    <!-- 修改商品 end -->
 </body>
-
 </html>

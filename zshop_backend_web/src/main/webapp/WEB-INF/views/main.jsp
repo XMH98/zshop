@@ -15,7 +15,7 @@
     $(function(){
     	// 点击切换页面
 	     $("#product-type-set").click(function() {
-            $("#frame-id").attr("src", "productTypeManager.html");
+            $("#frame-id").attr("src", "${pageContext.request.contextPath}/backend/productType/findAll");
         });
         $("#product-set").click(function() {
             $("#frame-id").attr("src", "productManager.html");
