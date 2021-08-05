@@ -56,11 +56,18 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 
     @Override
     public void modifyStatus(int id) {
-
+        ProductType productType = findById(id);
+        int status = productType.getStatus();
+        if(status==ProductTypeConstant.PRODUCT_TYPE_ENABLE){
+            status=ProductTypeConstant.PRODUCT_TYPE_DISABLE;
+        }else {
+            status=ProductTypeConstant.PRODUCT_TYPE_ENABLE;
+        }
+        productTypeDao.updateStatus(id,status);
     }
 
     @Override
     public void removeById(int id) {
-
+        productTypeDao.deleteById(id);
     }
 }

@@ -105,6 +105,55 @@
                 }
             });
         }
+
+        //显示确认删除弹框
+        function showConfirm(id){
+            $('#ProductTypeDelete').modal('show');
+            $('#deleteProductTypeId').val(id);
+        }
+
+        //删除商品类型
+        function deleteProductType(){
+            $.get(
+                '${pageContext.request.contextPath}/backend/productType/removeById',
+                {'id':$('#deleteProductTypeId').val()},
+                function (result){
+                    if(result.status==1){
+                        layer.msg(
+                            '删除成功',
+                            {
+                                time:2000,
+                                skin:'successMsg'
+                            },
+                            function (){
+                                location.href='${pageContext.request.contextPath}/backend/productType/findAll?pageNum='+${pageInfo.pageNum};
+                            }
+                        )
+                    }
+                }
+            )
+        }
+
+        //修改商品类型状态
+        function modifyStatus(id,btn){
+            $.post(
+                '${pageContext.request.contextPath}/backend/productType/modifyStatus',
+                {'id':id},
+                function (result){
+                    if(result.status==1){
+                        $td=$(btn).parent().prev();
+                        if($(btn).val()=='启用'){
+                            $td.text('启用');
+                            $(btn).val('禁用').removeClass('btn-success').addClass('btn-warning');
+                        }else {
+                            $td.text('禁用');
+                            $(btn).val('启用').removeClass('btn-warning').addClass('btn-success');
+                        }
+
+                    }
+                }
+            )
+        }
     </script>
 </head>
 
@@ -136,17 +185,15 @@
                                 <c:if test="${productType.status==1}">启用</c:if>
                                 <c:if test="${productType.status==0}">禁用</c:if>
                             </td>
-                            <td>电子产品</td>
-                            <td>有效商品</td>
                             <td class="text-center">
                                 <input type="button" class="btn btn-warning btn-sm doProTypeModify" value="修改" onclick="showProductType(${productType.id})">
                                 <c:if test="${productType.status==1}">
-                                    <input type="button" class="btn btn-warning btn-sm doProTypeDisable" value="禁用">
+                                    <input type="button" class="btn btn-warning btn-sm doProTypeDisable" value="禁用" onclick="modifyStatus(${productType.id},this)">
                                 </c:if>
                                 <c:if test="${productType.status==0}">
-                                    <input type="button" class="btn btn-warning btn-sm doProTypeDisable" value="启用">
+                                    <input type="button" class="btn btn-success btn-sm doProTypeDisable" value="启用" onclick="modifyStatus(${productType.id},this)">
                                 </c:if>
-                                <input type="button" class="btn btn-danger btn-sm doProTypeDelete" value="删除">
+                                <input type="button" class="btn btn-danger btn-sm doProTypeDelete" value="删除" onclick="showConfirm(${productType.id})">
                             </td>
                         </tr>
                     </c:forEach>
@@ -221,6 +268,31 @@
         </div>
     </div>
     <!-- 修改商品类型 end -->
+
+    <!-- 删除商品类型 start -->
+    <div class="modal fade" tabindex="-1" id="ProductTypeDelete">
+        <!-- 窗口声明 -->
+        <div class="modal-dialog modal-lg">
+            <!-- 内容声明 -->
+            <div class="modal-content">
+                <!-- 头部、主体、脚注 -->
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">提示消息</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <h4>确认要删除该商品类型吗？</h4>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" id="deleteProductTypeId">
+                    <button class="btn btn-primary addProductType" data-dismiss="modal" onclick="deleteProductType()">删除</button>
+                    <button class="btn btn-primary cancel" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 删除商品类型 end -->
+
 </body>
 
 </html>

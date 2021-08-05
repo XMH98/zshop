@@ -32,6 +32,10 @@ public class ResponseResult {
         return new ResponseResult(ResponseStatusConstant.RESPONSE_STATUS_SUCCESS,"success",data);
     }
 
+    public static ResponseResult success(){
+        return new ResponseResult(ResponseStatusConstant.RESPONSE_STATUS_SUCCESS,"success",null);
+    }
+
     public int getStatus() {
         return status;
     }

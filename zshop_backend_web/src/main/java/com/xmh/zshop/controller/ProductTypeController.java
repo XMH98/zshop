@@ -88,5 +88,19 @@ public class ProductTypeController {
         return result;
     }
 
+    @RequestMapping("/removeById")
+    @ResponseBody
+    public ResponseResult removeById(int id){
+        productTypeService.removeById(id);
+        return ResponseResult.success();
+    }
+
+    @RequestMapping("/modifyStatus")
+    @ResponseBody
+    public ResponseResult modifyStatus(int id){
+        productTypeService.modifyStatus(id);
+        return ResponseResult.success();
+    }
+
 
 }
