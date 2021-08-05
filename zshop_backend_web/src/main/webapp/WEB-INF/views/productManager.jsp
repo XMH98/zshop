@@ -49,24 +49,18 @@
                         </tr>
                     </thead>
                     <tbody id="tb">
-                    <c:forEach items="${pageInfo.list}" var="productType">
+                    <c:forEach items="${products}" var="product">
                         <tr>
-                            <td>${productType.id}</td>
-                            <td>${productType.name}</td>
+                            <td>${product.id}</td>
+                            <td>${product.name}</td>
+                            <td>${product.price}</td>
+                            <td>${product.productType.name}</td>
                             <td>
-                                <c:if test="${productType.status==1}">启用</c:if>
-                                <c:if test="${productType.status==0}">禁用</c:if>
+                                <c:if test="${product.productType.status==1}">有效商品</c:if>
+                                <c:if test="${product.productType.status==0}">无效商品</c:if>
                             </td>
-                            <td>电子产品</td>
-                            <td>有效商品</td>
                             <td class="text-center">
                                 <input type="button" class="btn btn-warning btn-sm doProTypeModify" value="修改">
-                                <c:if test="${productType.status==1}">
-                                    <input type="button" class="btn btn-warning btn-sm doProTypeDisable" value="禁用">
-                                </c:if>
-                                <c:if test="${productType.status==0}">
-                                    <input type="button" class="btn btn-warning btn-sm doProTypeDisable" value="启用">
-                                </c:if>
                                 <input type="button" class="btn btn-danger btn-sm doProTypeDelete" value="删除">
                             </td>
                         </tr>
@@ -83,7 +77,7 @@
         <!-- 窗口声明 -->
         <div class="modal-dialog modal-lg">
             <!-- 内容声明 -->
-            <form action="" class="form-horizontal">
+            <form action="${pageContext.request.contextPath}/backend/product/add" method="post" enctype="multipart/form-data">
             <div class="modal-content">
                 <!-- 头部、主体、脚注 -->
                 <div class="modal-header">
@@ -95,30 +89,33 @@
                         <div class="form-group">
                             <label for="product-name" class="col-sm-4 control-label">商品名称：</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="product-name">
+                                <input type="text" class="form-control" id="product-name" name="name">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="product-price" class="col-sm-4 control-label">商品价格：</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="product-price">
+                                <input type="text" class="form-control" id="product-price" name="price">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="product-image" class="col-sm-4 control-label">商品图片：</label>
                             <div class="col-sm-8">
                                 <a href="javascript:;" class="file">选择文件
-                                    <input type="file" name="" id="product-image">
+                                    <input type="file" name="file" id="product-image">
                                 </a>
                             </div>
                         </div>
                         <div class="form-group">
-                            <%--@declare id="product-type"--%><label for="product-type" class="col-sm-4 control-label">商品类型：</label>
+                            <label for="product-type" class="col-sm-4 control-label">商品类型：</label>
                             <div class="col-sm-8">
-                                <select class="form-control">
+                                <select class="form-control" id="product-type" name="productTypeId">
                                     <option>请选择</option>
-                                    <option>电子产品</option>
-                                    <option>化妆品</option>
+                                    <c:forEach items="${productTypes}" var="productType">
+                                        <option value="${productType.id}">
+                                            ${productType.name}
+                                        </option>
+                                    </c:forEach>
                                 </select>
                             </div>
                         </div>
@@ -129,7 +126,7 @@
                     </div>  
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary">添加</button>
+                    <button class="btn btn-primary" type="submit">添加</button>
                     <button class="btn btn-primary cancel" data-dismiss="modal">取消</button>
                 </div>
             </div>
@@ -143,7 +140,7 @@
         <!-- 窗口声明 -->
         <div class="modal-dialog modal-lg">
             <!-- 内容声明 -->
-            <form action="" class="form-horizontal">
+            <form action="${pageContext.request.contextPath}/backend/product/add" method="post" enctype="multipart/form-data">
             <div class="modal-content">
                 <!-- 头部、主体、脚注 -->
                 <div class="modal-header">
