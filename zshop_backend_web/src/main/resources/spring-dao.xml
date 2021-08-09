@@ -7,7 +7,7 @@
     <!--property-placeholder：外在化参数配置的方式，解析配置文件中的自定义命名空间-->
     <context:property-placeholder location="classpath:*.properties"/>
 
-    <!--连接池，用于连接数据库-->
+    <!--连接池，管理事务的 JDBC 数据源,用于连接数据库-->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
         <property name="driverClassName" value="${jdbc.driverClassName}"/>
         <property name="url" value="${jdbc.url}"/>
@@ -16,9 +16,15 @@
         <property name="initialSize" value="${jdbc.initialSize}"/>
     </bean>
 
+    <!--
+        在基本的 MyBatis 中,session 工厂可以使用 SqlSessionFactoryBuilder 来创建。
+        而在 MyBatis-Spring 中,则使用 SqlSessionFactoryBean 来替代。
+    -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--其他bean的引用使用ref-->
         <property name="dataSource" ref="dataSource"/>
         <property name="mapperLocations" value="classpath:com/xmh/zshop/mapper/*.xml"/>
+        <!--用于搜索类型别名的包-->
         <property name="typeAliasesPackage" value="com.xmh.zshop.pojo"/>
         <!--分页插件pagehelper-->
         <property name="plugins">
@@ -34,8 +40,14 @@
         </property>
     </bean>
 
+    <!-- 自动扫描 将Mapper接口生成代理注入到Spring-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--
+            指定在 spring 上下文中有多个的情况下使用哪个 SqlSessionFactory。
+            通常只有当有多个数据源时才需要这样做。
+        -->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <!--指定映射文件的包-->
         <property name="basePackage" value="com.xmh.zshop.dao"/>
     </bean>
 </beans>

@@ -5,9 +5,11 @@
          version="3.1">
 
     <!--Spring+SpringMVC，可以只配置DispatcherServlet-->
+    <!--springMVC核心控制器-->
     <servlet>
         <servlet-name>springMVC</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!--init-param是配置Servlet的初始化参数-->
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath:spring*.xml</param-value>
@@ -20,6 +22,7 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <!--filter和filter-mapping是成对出现的-->
     <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -28,6 +31,7 @@
             <param-value>utf-8</param-value>
         </init-param>
     </filter>
+    <!--映射过滤器，用于设置一个 Filter 所负责拦截的资源-->
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
