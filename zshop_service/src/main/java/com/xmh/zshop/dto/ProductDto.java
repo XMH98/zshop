@@ -5,7 +5,7 @@ import java.io.InputStream;
 /**
  * Author: 徐明皓
  * Date: 2021-08-05 20:57
- * Description: <描述>
+ * Description: <数据传输对象>
  */
 public class ProductDto {
     private Integer id;

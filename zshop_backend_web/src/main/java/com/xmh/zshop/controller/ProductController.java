@@ -33,6 +33,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    //@ModelAttribute最主要的作用是将数据添加到模型对象中，用于视图页面展示时使用
     @ModelAttribute("productTypes")
     public List<ProductType> loadProductType(){
         List<ProductType> productTypes = productTypeService.findAll();

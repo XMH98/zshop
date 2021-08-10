@@ -10,6 +10,7 @@
         <servlet-name>springMVC</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <!--init-param是配置Servlet的初始化参数-->
+        <!--加载配置文件-->
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath:spring*.xml</param-value>
@@ -23,6 +24,7 @@
     </servlet-mapping>
 
     <!--filter和filter-mapping是成对出现的-->
+    <!--过滤器，解决 POST 乱码-->
     <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>

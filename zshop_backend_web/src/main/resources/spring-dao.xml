@@ -21,8 +21,12 @@
         而在 MyBatis-Spring 中,则使用 SqlSessionFactoryBean 来替代。
     -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <!--其他bean的引用使用ref-->
+        <!--
+            设置此实例应为其管理事务的 JDBC 数据源
+            其他bean的引用使用ref
+        -->
         <property name="dataSource" ref="dataSource"/>
+        <!--映射文件路径-->
         <property name="mapperLocations" value="classpath:com/xmh/zshop/mapper/*.xml"/>
         <!--用于搜索类型别名的包-->
         <property name="typeAliasesPackage" value="com.xmh.zshop.pojo"/>
@@ -40,14 +44,14 @@
         </property>
     </bean>
 
-    <!-- 自动扫描 将Mapper接口生成代理注入到Spring-->
+    <!--
+        自动扫描 将Mapper接口生成代理注入到Spring
+        自动代理生成 DAO 的实现类
+    -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <!--
-            指定在 spring 上下文中有多个的情况下使用哪个 SqlSessionFactory。
-            通常只有当有多个数据源时才需要这样做。
-        -->
+        <!--接口名字-->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
-        <!--指定映射文件的包-->
+        <!--接口位置-->
         <property name="basePackage" value="com.xmh.zshop.dao"/>
     </bean>
 </beans>

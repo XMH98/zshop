@@ -15,15 +15,21 @@ import java.util.List;
 /**
  * Author: 徐明皓
  * Date: 2021-08-03 17:15
- * Description: <描述>
+ * Description: <实现类>
  */
 @Service
+/**
+ * 事务管理
+ *      propagation：事务传播类型
+ *      REQUIRED：支持当前事务，如果不存在则创建一个新事务
+ */
 @Transactional(propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 public class ProductTypeServiceImpl implements ProductTypeService {
 
     @Autowired
     private ProductTypeDao productTypeDao;
 
+    //支持当前事务，如果不存在则以非事务方式执行
     @Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
     @Override
     public List<ProductType> findAll() {
